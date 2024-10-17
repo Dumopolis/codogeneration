@@ -1,0 +1,358 @@
+openapi: 3.0.0
+info:
+  title: Fake server API
+  description: API для тестирования кодогенерации
+  version: 1.0.0
+paths:
+  /register:
+    post:
+      tags:
+        - Auth
+      operationId: registration-post
+      summary: Регистрация пользователя
+      description: Эндпоинт для регистрации нового пользователя с валидацией полей.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: Email пользователя. Либо это поле, либо телефон должно быть заполнено.
+                  example: "test@example.com"
+                phone:
+                  type: string
+                  description: Телефон пользователя. Либо это поле, либо email должно быть заполнено.
+                  example: "+1234567890"
+                password:
+                  type: string
+                  description: Пароль пользователя. Минимум 6 символов.
+                  example: "password123"
+                clientId:
+                  type: integer
+                  description: Уникальный ID клиента. Обязательное поле.
+                  example: 123
+              required:
+                - password
+                - clientId
+      responses:
+        '200':
+          description: Успешная регистрация
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Registration successful"
+                  data:
+                    type: object
+                    properties:
+                      email:
+                        type: string
+                        nullable: true
+                        example: "test@example.com"
+                      phone:
+                        type: string
+                        nullable: true
+                        example: "+1234567890"
+                      clientId:
+                        type: integer
+                        example: 123
+        '400':
+          description: Ошибка валидации
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        msg:
+                          type: string
+                          example: "Password must be at least 6 characters long"
+                        param:
+                          type: string
+                          example: "password"
+                        location:
+                          type: string
+                          example: "body"
+  /login:
+    post:
+      tags:
+        - Auth
+      summary: Авторизация пользователя
+      description: Эндпоинт для авторизации пользователя с проверкой email/телефона и пароля.
+      operationId: loginUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: Email пользователя. Либо это поле, либо телефон должно быть заполнено.
+                  example: "test@example.com"
+                phone:
+                  type: string
+                  description: Телефон пользователя. Либо это поле, либо email должно быть заполнено.
+                  example: "+1234567890"
+                password:
+                  type: string
+                  description: Пароль пользователя. Обязательное поле.
+                  example: "password123"
+              required:
+                - password
+      responses:
+        '200':
+          description: Успешная авторизация
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Login successful"
+                  token:
+                    type: string
+                    description: JWT токен для дальнейшей аутентификации
+                    example: "mock-jwt-token"
+        '400':
+          description: Ошибка валидации полей
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        msg:
+                          type: string
+                          enum:
+                            - "Invalid email format"
+                            - "Invalid phone number"
+                            - "Either email or phone is required"
+                            - "Password must be at least 6 characters long"
+                        param:
+                          type: string
+                          example: "password"
+                        location:
+                          type: string
+                          example: "body"
+        '401':
+          description: Ошибка аутентификации (неправильный email/пароль)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    enum:
+                      - "Email not found"
+                      - "Incorrect password"
+  /users/{id}:
+    get:
+      tags:
+        - User
+      summary: Получение пользователя по ID
+      description: Возвращает информацию о пользователе по ID.
+      operationId: getUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID пользователя
+      responses:
+        '200':
+          description: Успешное получение данных пользователя
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      email:
+                        type: string
+                      phone:
+                        type: string
+                      password:
+                        type: string
+        '400':
+          description: Ошибка валидации ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        msg:
+                          type: string
+                          enum:
+                            - "User ID must be an integer"
+        '404':
+          description: Пользователь не найден
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "User not found"
+
+    put:
+      tags:
+        - User
+      summary: Обновление данных пользователя по ID
+      description: Обновляет данные пользователя по ID.
+      operationId: updateUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID пользователя
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: Email пользователя
+                phone:
+                  type: string
+                  description: Телефон пользователя
+                password:
+                  type: string
+                  description: Пароль пользователя
+      responses:
+        '200':
+          description: Успешное обновление данных пользователя
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "User updated successfully"
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      email:
+                        type: string
+                      phone:
+                        type: string
+                      password:
+                        type: string
+        '400':
+          description: Ошибка валидации данных
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        msg:
+                          type: string
+                          enum:
+                            - "Invalid email format"
+                            - "Invalid phone number"
+                            - "Password must be at least 6 characters long"
+        '404':
+          description: Пользователь не найден
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "User not found"
+
+    delete:
+      tags:
+        - User
+      summary: Удаление пользователя по ID
+      description: Удаляет пользователя по ID.
+      operationId: deleteUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID пользователя
+      responses:
+        '200':
+          description: Успешное удаление пользователя
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "User deleted successfully"
+        '400':
+          description: Ошибка валидации ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        msg:
+                          type: string
+                          enum:
+                            - "User ID must be an integer"
+        '404':
+          description: Пользователь не найден
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "User not found"
