@@ -21,10 +21,9 @@ export class UserService {
     id: number,
   }): CancelablePromise<{
     user?: {
-      id?: number;
+      id: number;
       email?: string;
       phone?: string;
-      password?: string;
     };
   }> {
     return __request(OpenAPI, {

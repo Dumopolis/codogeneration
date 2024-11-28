@@ -94,8 +94,7 @@ export type GetUser400 = {
 
 export type GetUser200User = {
   email?: string;
-  id?: number;
-  password?: string;
+  id: number;
   phone?: string;
 };
 

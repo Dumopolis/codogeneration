@@ -1,6 +1,5 @@
 .gitignore
 .npmignore
-.openapi-generator-ignore
 api.ts
 api/auth-api.ts
 api/user-api.ts
@@ -27,6 +26,7 @@ model/registration-post200-response.ts
 model/registration-post400-response-errors-inner.ts
 model/registration-post400-response.ts
 model/update-user-request.ts
+model/update-user200-response-user.ts
 model/update-user200-response.ts
 model/update-user400-response-errors-inner.ts
 model/update-user400-response.ts

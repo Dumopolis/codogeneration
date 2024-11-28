@@ -189,14 +189,14 @@ paths:
                 properties:
                   user:
                     type: object
+                    required:
+                      - id
                     properties:
                       id:
                         type: integer
                       email:
                         type: string
                       phone:
-                        type: string
-                      password:
                         type: string
         '400':
           description: Ошибка валидации ID

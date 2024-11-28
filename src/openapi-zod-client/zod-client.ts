@@ -164,11 +164,9 @@ const endpoints = makeApi([
         user: z
           .object({
             id: z.number().int(),
-            email: z.string(),
-            phone: z.string(),
-            password: z.string(),
+            email: z.string().optional(),
+            phone: z.string().optional(),
           })
-          .partial()
           .strict()
           .passthrough(),
       })

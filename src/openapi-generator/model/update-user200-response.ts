@@ -15,7 +15,7 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import type { GetUser200ResponseUser } from './get-user200-response-user';
+import type { UpdateUser200ResponseUser } from './update-user200-response-user';
 
 /**
  * 
@@ -31,9 +31,9 @@ export interface UpdateUser200Response {
     'message'?: string;
     /**
      * 
-     * @type {GetUser200ResponseUser}
+     * @type {UpdateUser200ResponseUser}
      * @memberof UpdateUser200Response
      */
-    'user'?: GetUser200ResponseUser;
+    'user'?: UpdateUser200ResponseUser;
 }
 

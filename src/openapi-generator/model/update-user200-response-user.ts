@@ -17,26 +17,32 @@
 /**
  * 
  * @export
- * @interface GetUser200ResponseUser
+ * @interface UpdateUser200ResponseUser
  */
-export interface GetUser200ResponseUser {
+export interface UpdateUser200ResponseUser {
     /**
      * 
      * @type {number}
-     * @memberof GetUser200ResponseUser
+     * @memberof UpdateUser200ResponseUser
      */
-    'id': number;
+    'id'?: number;
     /**
      * 
      * @type {string}
-     * @memberof GetUser200ResponseUser
+     * @memberof UpdateUser200ResponseUser
      */
     'email'?: string;
     /**
      * 
      * @type {string}
-     * @memberof GetUser200ResponseUser
+     * @memberof UpdateUser200ResponseUser
      */
     'phone'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateUser200ResponseUser
+     */
+    'password'?: string;
 }
 

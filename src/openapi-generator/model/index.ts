@@ -15,6 +15,7 @@ export * from './registration-post400-response';
 export * from './registration-post400-response-errors-inner';
 export * from './registration-post-request';
 export * from './update-user200-response';
+export * from './update-user200-response-user';
 export * from './update-user400-response';
 export * from './update-user400-response-errors-inner';
 export * from './update-user-request';

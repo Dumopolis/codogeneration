@@ -19,7 +19,7 @@ import type {
   UpdateUser200
 } from '../fakeServerAPI.schemas'
 
-export const getGetUserResponseMock = (overrideResponse: Partial< GetUser200 > = {}): GetUser200 => ({user: faker.helpers.arrayElement([{email: faker.helpers.arrayElement([faker.word.sample(), undefined]), id: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), password: faker.helpers.arrayElement([faker.word.sample(), undefined]), phone: faker.helpers.arrayElement([faker.word.sample(), undefined])}, undefined]), ...overrideResponse})
+export const getGetUserResponseMock = (overrideResponse: Partial< GetUser200 > = {}): GetUser200 => ({user: faker.helpers.arrayElement([{email: faker.helpers.arrayElement([faker.word.sample(), undefined]), id: faker.number.int({min: undefined, max: undefined}), phone: faker.helpers.arrayElement([faker.word.sample(), undefined])}, undefined]), ...overrideResponse})
 
 export const getUpdateUserResponseMock = (overrideResponse: Partial< UpdateUser200 > = {}): UpdateUser200 => ({message: faker.helpers.arrayElement([faker.word.sample(), undefined]), user: faker.helpers.arrayElement([{email: faker.helpers.arrayElement([faker.word.sample(), undefined]), id: faker.helpers.arrayElement([faker.number.int({min: undefined, max: undefined}), undefined]), password: faker.helpers.arrayElement([faker.word.sample(), undefined]), phone: faker.helpers.arrayElement([faker.word.sample(), undefined])}, undefined]), ...overrideResponse})
 

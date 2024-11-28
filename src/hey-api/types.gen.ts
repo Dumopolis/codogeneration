@@ -84,10 +84,9 @@ export type GetUserData = {
 
 export type GetUserResponse = ({
     user?: {
-        id?: number;
+        id: number;
         email?: string;
         phone?: string;
-        password?: string;
     };
 });
 
